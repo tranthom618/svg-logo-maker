@@ -28,3 +28,23 @@ const questions = [
         message: "Pick a colour for the shape by typing it's name or it's hexadecimal number." 
     }
 ];
+
+// Function to initialize app
+function init() {
+
+    // Inquirer prompt, using the questions array
+    inquirer.prompt(questions)
+
+    // Then after inquirer is executed, takes the answers and passes them to the generateSVG function that is located in utils/generateSVG.js
+    .then((answers) => {
+        const svgContent = generateSVG(answers);
+
+        // File System for writing the 'logo.svg' file name, then svgContent that is returned from generateSVG. Also provides error feedback in case there are issues.
+        fs.writeFile('logo.svg', svgContent, (err) =>
+        err ? console.log(err) : console.log('Generated logo.svg')
+        );
+    });
+}
+
+// Function call to initialize app
+init();
