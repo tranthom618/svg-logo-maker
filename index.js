@@ -17,9 +17,10 @@ const questions = [
     },
 
     {
-        type: "input",
+        type: "list",
         name: "shape", 
-        message: "Choose a shape to be the base of your logo." 
+        message: "Choose a shape to be the base of your logo." ,
+        choices: ['Circle', 'Triangle', 'Square']
     },
 
     {
