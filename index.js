@@ -1,8 +1,7 @@
 // Packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
-const SVG = require('./lib/SVG.js');
-const {Triangle, Rectangle, Circle} = require('./lib/shapes')
+const {Triangle, Square, Circle} = require('./lib/shapes')
 
 // An array of questions for user input
 const questions = [
@@ -43,23 +42,30 @@ function init() {
         
         let shape;
         
+        // Determines which shape the user selected.
         if (answers.shape === 'Triangle') {
             shape = new Triangle();
         }
 
+        else if (answers.shape === 'Square') {
+            shape = new Square();
+        }
+
+        else if (answers.shape === 'Circle') {
+            shape = new Circle();
+        }
+
         shape.setColour(answers.shapeColour);
+        shape.setTitle(answers.title);
+        shape.setTextColour(answers.textColour);
 
-        const newSVG = new SVG();
-        newSVG.setTitle(answers.title, answers.textColour);
+        // const newSVG = new shape();
+        // newSVG.setTitle(answers.title, answers.textColour);
 
-        newSVG.setShape(shape);
-        console.log("=======");
-        console.log(newSVG);
-        console.log(shape);
-        console.log("=======");
+        // newSVG.setShape(shape);
 
-        // File System for writing the 'logo.svg' file name, then svgContent that is returned from generateSVG. Also provides error feedback in case there are issues.
-        return fs.writeFile('logo.svg', newSVG.render(), (err) =>
+        // File System for writing the 'logo.svg' file name, content is returned from shapes.js. Also provides error feedback in case there are issues.
+        return fs.writeFile('logo.svg', shape.render(), (err) =>
         err ? console.log(err) : console.log('Generated logo.svg')
         );
     });
