@@ -1,7 +1,8 @@
 // Packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateSVG = require('./utils/generateSVG.js');
+const SVG = require('./lib/SVG.js');
+const {Triangle, Rectangle, Circle} = require('./lib/shapes')
 
 // An array of questions for user input
 const questions = [
@@ -38,10 +39,27 @@ function init() {
 
     // Then after inquirer is executed, takes the answers and passes them to the generateSVG function that is located in utils/generateSVG.js
     .then((answers) => {
-        const svgContent = generateSVG(answers);
+        // const svgContent = generateSVG(answers);
+        
+        let shape;
+        
+        if (answers.shape === 'Triangle') {
+            shape = new Triangle();
+        }
+
+        shape.setColour(answers.shapeColour);
+
+        const newSVG = new SVG();
+        newSVG.setTitle(answers.title, answers.textColour);
+
+        newSVG.setShape(shape);
+        console.log("=======");
+        console.log(newSVG);
+        console.log(shape);
+        console.log("=======");
 
         // File System for writing the 'logo.svg' file name, then svgContent that is returned from generateSVG. Also provides error feedback in case there are issues.
-        fs.writeFile('logo.svg', svgContent, (err) =>
+        return fs.writeFile('logo.svg', newSVG.render(), (err) =>
         err ? console.log(err) : console.log('Generated logo.svg')
         );
     });
