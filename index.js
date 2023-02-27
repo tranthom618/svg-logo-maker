@@ -7,7 +7,7 @@ const {Triangle, Square, Circle} = require('./lib/shapes')
 const questions = [
     {   type: "input",
         name: "title", 
-        message: "Pick 3 characters that'll be the shorthand of your application or company name." 
+        message: "Pick 3 characters maximum that'll be the shorthand of your application or company name. (3 characters max!)" 
     },
 
     {
@@ -38,7 +38,6 @@ function init() {
 
     // Then after inquirer is executed, takes the answers and passes them to the generateSVG function that is located in utils/generateSVG.js
     .then((answers) => {
-        // const svgContent = generateSVG(answers);
         
         let shape;
         
@@ -55,14 +54,10 @@ function init() {
             shape = new Circle();
         }
 
+        // Sends the selected answers to determine shapeColour, 3 letter title, and text colour.
         shape.setColour(answers.shapeColour);
         shape.setTitle(answers.title);
         shape.setTextColour(answers.textColour);
-
-        // const newSVG = new shape();
-        // newSVG.setTitle(answers.title, answers.textColour);
-
-        // newSVG.setShape(shape);
 
         // File System for writing the 'logo.svg' file name, content is returned from shapes.js. Also provides error feedback in case there are issues.
         return fs.writeFile('logo.svg', shape.render(), (err) =>
